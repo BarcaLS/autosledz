@@ -21,26 +21,7 @@ public class AutosledzController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/devices")
     public List<DeviceDto> getDevices() {
+        System.out.println(autosledzMapper.mapToDeviceDto(service.getAllDevices()).size());
         return autosledzMapper.mapToDeviceDto(service.getAllDevices());
     }
-
-    /*@RequestMapping(method = RequestMethod.GET, value = "/tasks/{taskId}")
-    public TaskDto getTask(@PathVariable Long taskId) throws TaskNotFoundException {
-        return taskMapper.mapToTaskDto(service.getTask(taskId).orElseThrow(TaskNotFoundException::new));
-    }
-
-    @RequestMapping(method = RequestMethod.POST, value = "/tasks", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void createTask(@RequestBody TaskDto taskDto) {
-        service.saveTask(taskMapper.mapToTask(taskDto));
-    }
-
-    @RequestMapping(method = RequestMethod.PUT, value = "/tasks")
-    public TaskDto updateTask(@RequestBody TaskDto taskDto) {
-        return taskMapper.mapToTaskDto(service.saveTask(taskMapper.mapToTask(taskDto)));
-    }
-
-    @RequestMapping(method = RequestMethod.DELETE, value = "/tasks/{taskId}")
-    public void deleteTask(@PathVariable Long taskId) {
-        service.deleteTask(taskId);
-    }*/
 }

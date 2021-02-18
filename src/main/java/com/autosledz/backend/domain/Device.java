@@ -21,7 +21,7 @@ public class Device {
     @Column(name = "name")
     private String name;
 
-    @Column (name = "uniqueId")
+    @Column (name = "unique_id")
     private String uniqueId;
 
     @Column (name = "category")

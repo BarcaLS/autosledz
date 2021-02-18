@@ -3,12 +3,14 @@ package com.autosledz.backend.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
-@AllArgsConstructor
+@Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class DeviceDto {
+@AllArgsConstructor
+@NoArgsConstructor
+public class TraccarDeviceDto {
     @JsonProperty("id")
     private Long id;
 

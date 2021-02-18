@@ -1,0 +1,33 @@
+package com.autosledz.backend.traccar.facade;
+
+import com.autosledz.backend.domain.*;
+import com.autosledz.backend.mapper.TraccarMapper;
+import com.autosledz.backend.service.TraccarService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+
+@Component
+public class TraccarFacade {
+    @Autowired
+    private TraccarService traccarService;
+
+    @Autowired
+    private TraccarMapper traccarMapper;
+
+    public List<TraccarDeviceDto> fetchTraccarDevices() {
+        List<TraccarDevice> traccarDevices = traccarMapper.mapToTraccarDevices(traccarService.fetchTraccarDevices());
+        return traccarMapper.mapToTraccarDevicesDto(traccarDevices);
+    }
+
+    public List<TraccarUserDto> fetchTraccarUsers() {
+        List<TraccarUser> traccarUsers = traccarMapper.mapToTraccarUsers(traccarService.fetchTraccarUsers());
+        return traccarMapper.mapToTraccarUsersDto(traccarUsers);
+    }
+
+    public List<TraccarPositionDto> fetchTraccarPositions() {
+        List<TraccarPosition> traccarPositions = traccarMapper.mapToTraccarPositions(traccarService.fetchTraccarPositions());
+        return traccarMapper.mapToTraccarPositionsDto(traccarPositions);
+    }
+}

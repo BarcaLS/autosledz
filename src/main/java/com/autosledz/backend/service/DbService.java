@@ -15,16 +15,4 @@ public class DbService {
     public List<Device> getAllDevices() {
         return deviceRepository.findAll();
     }
-
-    /*public Optional<Device> getDevice(Long id) {
-        return deviceRepository.findById(id);
-    }
-
-    public void deleteDevice(Long id) {
-        deviceRepository.deleteById(id);
-    }
-
-    public Device saveDevice(final Device device) {
-        return deviceRepository.save(device);
-    }*/
 }

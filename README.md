@@ -5,6 +5,8 @@
 ## What is it for?
 > It's backend mechanics (REST API) allowing you to deal with Traccar's API.
 > Traccar API is available at https://www.traccar.org/api-reference/
+> Main purpose is to allow your employees to have only limited access to Traccar,
+> without logging to Traccar itself.
 
 ## Requirements
 You need:

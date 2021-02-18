@@ -18,7 +18,7 @@ public class Position {
     @GeneratedValue
     private Long id;
 
-    @Column(name = "deviceId")
+    @Column(name = "device_id")
     private Long deviceId;
 
     @Column (name = "latitude")

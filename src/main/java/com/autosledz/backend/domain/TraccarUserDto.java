@@ -3,21 +3,23 @@ package com.autosledz.backend.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
-@AllArgsConstructor
+@Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class DeviceDto {
+@AllArgsConstructor
+@NoArgsConstructor
+public class TraccarUserDto {
     @JsonProperty("id")
     private Long id;
 
     @JsonProperty("name")
     private String name;
 
-    @JsonProperty("uniqueId")
-    private String uniqueId;
+    @JsonProperty("email")
+    private String email;
 
-    @JsonProperty("category")
-    private String category;
+    @JsonProperty("administrator")
+    private boolean administrator;
 }
