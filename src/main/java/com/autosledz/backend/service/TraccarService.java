@@ -12,7 +12,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class TraccarService {
-    private static final String SUBJECT = "Tasks: New Trello card";
     private final TraccarClient traccarClient;
 
     public List<TraccarDeviceDto> fetchTraccarDevices() { return traccarClient.getTraccarDevices(); }
