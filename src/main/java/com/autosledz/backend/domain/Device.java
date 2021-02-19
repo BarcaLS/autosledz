@@ -21,9 +21,15 @@ public class Device {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "unique_id")
+    private String uniqueId;
+
     @Column (name = "latitude")
     private Float latitude;
 
     @Column (name = "longitude")
     private Float longitude;
+
+    @Column (name = "display_name")
+    private String displayName;
 }

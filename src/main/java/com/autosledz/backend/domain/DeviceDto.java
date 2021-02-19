@@ -15,9 +15,15 @@ public class DeviceDto {
     @JsonProperty("name")
     private String name;
 
+    @JsonProperty("uniqueId")
+    private String uniqueId;
+
     @JsonProperty("latitude")
     private Float latitude;
 
     @JsonProperty("longitude")
     private Float longitude;
+
+    @JsonProperty("display_name")
+    private String displayName;
 }
