@@ -18,8 +18,8 @@ public class TraccarPositionDto {
     private Long deviceId;
 
     @JsonProperty("latitude")
-    private Long latitude;
+    private Float latitude;
 
     @JsonProperty("longitude")
-    private Long longitude;
+    private Float longitude;
 }

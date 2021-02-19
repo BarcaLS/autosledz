@@ -8,6 +8,6 @@ import lombok.Getter;
 public class TraccarPosition {
     private Long id;
     private Long deviceId;
-    private Long latitude;
-    private Long longitude;
+    private Float latitude;
+    private Float longitude;
 }

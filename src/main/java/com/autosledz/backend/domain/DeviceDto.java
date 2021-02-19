@@ -16,8 +16,8 @@ public class DeviceDto {
     private String name;
 
     @JsonProperty("latitude")
-    private Long latitude;
+    private Float latitude;
 
     @JsonProperty("longitude")
-    private Long longitude;
+    private Float longitude;
 }

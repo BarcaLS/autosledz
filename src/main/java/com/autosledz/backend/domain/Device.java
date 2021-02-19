@@ -22,8 +22,8 @@ public class Device {
     private String name;
 
     @Column (name = "latitude")
-    private Long latitude;
+    private Float latitude;
 
     @Column (name = "longitude")
-    private Long longitude;
+    private Float longitude;
 }
