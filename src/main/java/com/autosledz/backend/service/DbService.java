@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -14,5 +15,17 @@ public class DbService {
 
     public List<Device> getAllDevices() {
         return deviceRepository.findAll();
+    }
+
+    public Optional<Device> getDevice(Long deviceId) {
+        return deviceRepository.findById(deviceId);
+    }
+
+    public Device saveDevice(final Device device) {
+        return deviceRepository.save(device);
+    }
+
+    public void deleteDevice(Long id) {
+        deviceRepository.deleteById(id);
     }
 }

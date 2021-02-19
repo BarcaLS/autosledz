@@ -13,8 +13,8 @@ public class AutosledzMapper {
         return new Device (
                 deviceDto.getId(),
                 deviceDto.getName(),
-                deviceDto.getUniqueId(),
-                deviceDto.getCategory()
+                deviceDto.getLatitude(),
+                deviceDto.getLongitude()
         );
     }
 
@@ -22,8 +22,8 @@ public class AutosledzMapper {
         return new DeviceDto (
                 device.getId(),
                 device.getName(),
-                device.getUniqueId(),
-                device.getCategory()
+                device.getLatitude(),
+                device.getLongitude()
         );
     }
 

@@ -15,9 +15,9 @@ public class DeviceDto {
     @JsonProperty("name")
     private String name;
 
-    @JsonProperty("uniqueId")
-    private String uniqueId;
+    @JsonProperty("latitude")
+    private Long latitude;
 
-    @JsonProperty("category")
-    private String category;
+    @JsonProperty("longitude")
+    private Long longitude;
 }

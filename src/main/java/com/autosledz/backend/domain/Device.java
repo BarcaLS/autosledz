@@ -21,9 +21,9 @@ public class Device {
     @Column(name = "name")
     private String name;
 
-    @Column (name = "unique_id")
-    private String uniqueId;
+    @Column (name = "latitude")
+    private Long latitude;
 
-    @Column (name = "category")
-    private String category;
+    @Column (name = "longitude")
+    private Long longitude;
 }
