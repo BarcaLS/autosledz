@@ -11,8 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/v1")
@@ -25,9 +24,7 @@ public class AutosledzController {
     private final TraccarController traccarController;
 
     @RequestMapping(method = RequestMethod.GET, value = "/devices")
-    public List<DeviceDto> getDevices() {
-        return autosledzMapper.mapToDeviceDto(service.getAllDevices());
-    }
+    public List<DeviceDto> getDevices() { return autosledzMapper.mapToDeviceDto(service.getAllDevices()); }
 
     @RequestMapping(method = RequestMethod.GET, value = "/devices/{deviceId}")
     public DeviceDto getDevice(@PathVariable Long deviceId) throws DeviceNotFoundException {
@@ -44,7 +41,7 @@ public class AutosledzController {
         return autosledzMapper.mapToDeviceDto(service.saveDevice(autosledzMapper.mapToDevice(deviceDto)));
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/devices/{deviceID}/updatePosition")
+    @RequestMapping(method = RequestMethod.GET, value = "/devices/{deviceId}/updatePosition")
     public void updatePositionOfDevice(@PathVariable Long deviceId) {
         List<TraccarPositionDto> listOfPositions = traccarController.getTraccarPositions();
         for(TraccarPositionDto currentPosition : listOfPositions) {
@@ -54,7 +51,7 @@ public class AutosledzController {
                 Float currentPositionLongitude = currentPosition.getLongitude();
                 GeocodingDto currentPositionGeocoding = geocodingService.getGeocoding(currentPositionLatitude, currentPositionLongitude);;
                 if(device.isPresent()) {
-                    service.saveDevice(autosledzMapper.mapToDevice(new DeviceDto(deviceId, service.getDevice(deviceId).get().getName(), device.get().getUniqueId(), currentPositionLatitude, currentPositionLongitude, currentPositionGeocoding.getDisplayName())));
+                    service.saveDevice(autosledzMapper.mapToDevice(new DeviceDto(deviceId, service.getDevice(deviceId).get().getName(), device.get().getUniqueId(), currentPositionLatitude, currentPositionLongitude, currentPositionGeocoding.getDisplayName(), service.getDevice(deviceId).get().getCreated(), new Date())));
                 }
             }
         }
