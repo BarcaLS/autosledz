@@ -61,7 +61,7 @@ public class AutosledzController {
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/devices/{deviceId}")
-    public void deleteTask(@PathVariable Long deviceId) {
+    public void deleteDevice(@PathVariable Long deviceId) {
         service.deleteDevice(deviceId);
     }
 }
