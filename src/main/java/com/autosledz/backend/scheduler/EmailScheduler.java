@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class EmailScheduler {
-    private static final String SUBJECT = "Location's report";
+    private static final String SUBJECT = "New message from Autosledz";
     private final SimpleEmailService simpleEmailService;
     private final AutosledzConfiguration autosledzConfiguration;
     private final AutosledzController autosledzController;
@@ -22,12 +22,12 @@ public class EmailScheduler {
     public void sendInformationEmail() throws DeviceNotFoundException {
         DeviceDto deviceDto = autosledzController.updatePositionOfDevice(autosledzConfiguration.getDeviceIdToScheduledInform());
         String message = "Device " + deviceDto.getName() + " is at " + deviceDto.getDisplayName() + " (position updated: " + deviceDto.getUpdated() + ").";
-        simpleEmailService.send(
-                new Mail(
-                        autosledzConfiguration.getAdminMail(),
-                        SUBJECT,
-                        message
-                )
-        );
+        Mail mail = new Mail.MailBuilder()
+                .subject(SUBJECT)
+                .message(message)
+                .mailTo(autosledzConfiguration.getAdminMail())
+                .mailTo("someothermail@imaginedserver.com")
+                .build();
+        simpleEmailService.send(mail);
     }
 }

@@ -31,8 +31,10 @@ public class SimpleEmailService {
 
     private MimeMessagePreparator createMimeMessage(final Mail mail) {
         return mimeMessage -> {
+            String[] mailto = new String[mail.getMailTo().size()];
+            mail.getMailTo().toArray(mailto);
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
-            messageHelper.setTo(mail.getMailTo());
+            messageHelper.setTo(mailto);
             messageHelper.setSubject(mail.getSubject());
             messageHelper.setText(mailCreatorService.buildCurrentPositionEmail(mail.getMessage()), true);
         };
