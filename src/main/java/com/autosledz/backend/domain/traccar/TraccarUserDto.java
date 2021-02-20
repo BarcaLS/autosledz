@@ -1,4 +1,4 @@
-package com.autosledz.backend.domain;
+package com.autosledz.backend.domain.traccar;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,16 +10,16 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class TraccarDeviceDto {
+public class TraccarUserDto {
     @JsonProperty("id")
     private Long id;
 
     @JsonProperty("name")
     private String name;
 
-    @JsonProperty("uniqueId")
-    private String uniqueId;
+    @JsonProperty("email")
+    private String email;
 
-    @JsonProperty("category")
-    private String category;
+    @JsonProperty("administrator")
+    private boolean administrator;
 }

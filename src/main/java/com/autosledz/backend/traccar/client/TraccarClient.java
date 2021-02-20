@@ -1,8 +1,8 @@
 package com.autosledz.backend.traccar.client;
 
-import com.autosledz.backend.domain.TraccarDeviceDto;
-import com.autosledz.backend.domain.TraccarPositionDto;
-import com.autosledz.backend.domain.TraccarUserDto;
+import com.autosledz.backend.domain.traccar.TraccarDeviceDto;
+import com.autosledz.backend.domain.traccar.TraccarPositionDto;
+import com.autosledz.backend.domain.traccar.TraccarUserDto;
 import com.autosledz.backend.traccar.config.TraccarConfig;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -32,11 +32,7 @@ public class TraccarClient {
                 .encode()
                 .toUri();
         try {
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-            headers.add(HttpHeaders.AUTHORIZATION, traccarConfig.getTraccarAuthorization());
-            HttpEntity entity = new HttpEntity(headers);
+            HttpEntity entity = createEntity();
             ResponseEntity<TraccarDeviceDto[]> devicesResponse = restTemplate.exchange(url, HttpMethod.GET, entity, TraccarDeviceDto[].class);
             return Arrays.asList(ofNullable(devicesResponse.getBody()).orElse(new TraccarDeviceDto[0]));
         } catch (RestClientException e) {
@@ -51,11 +47,7 @@ public class TraccarClient {
                 .encode()
                 .toUri();
         try {
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-            headers.add(HttpHeaders.AUTHORIZATION, traccarConfig.getTraccarAuthorization());
-            HttpEntity entity = new HttpEntity(headers);
+            HttpEntity entity = createEntity();
             ResponseEntity<TraccarUserDto[]> usersResponse = restTemplate.exchange(url, HttpMethod.GET, entity, TraccarUserDto[].class);
             return Arrays.asList(ofNullable(usersResponse.getBody()).orElse(new TraccarUserDto[0]));
         } catch (RestClientException e) {
@@ -70,16 +62,20 @@ public class TraccarClient {
                 .encode()
                 .toUri();
         try {
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-            headers.add(HttpHeaders.AUTHORIZATION, traccarConfig.getTraccarAuthorization());
-            HttpEntity entity = new HttpEntity(headers);
+            HttpEntity entity = createEntity();
             ResponseEntity<TraccarPositionDto[]> usersResponse = restTemplate.exchange(url, HttpMethod.GET, entity, TraccarPositionDto[].class);
             return Arrays.asList(ofNullable(usersResponse.getBody()).orElse(new TraccarPositionDto[0]));
         } catch (RestClientException e) {
             LOGGER.error(e.getMessage(), e);
             return Collections.emptyList();
         }
+    }
+
+    HttpEntity createEntity() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        headers.add(HttpHeaders.AUTHORIZATION, traccarConfig.getTraccarAuthorization());
+        return new HttpEntity(headers);
     }
 }

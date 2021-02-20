@@ -1,6 +1,6 @@
 package com.autosledz.backend.traccar.facade;
 
-import com.autosledz.backend.domain.*;
+import com.autosledz.backend.domain.traccar.*;
 import com.autosledz.backend.mapper.TraccarMapper;
 import com.autosledz.backend.service.TraccarService;
 import org.springframework.beans.factory.annotation.Autowired;

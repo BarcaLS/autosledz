@@ -3,7 +3,7 @@ package com.autosledz.backend.controller;
 import com.autosledz.backend.domain.Device;
 import com.autosledz.backend.domain.DeviceDto;
 import com.autosledz.backend.domain.GeocodingDto;
-import com.autosledz.backend.domain.TraccarPositionDto;
+import com.autosledz.backend.domain.traccar.TraccarPositionDto;
 import com.autosledz.backend.mapper.AutosledzMapper;
 import com.autosledz.backend.service.DbService;
 import com.autosledz.backend.service.GeocodingService;

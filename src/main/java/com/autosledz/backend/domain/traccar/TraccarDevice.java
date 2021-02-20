@@ -1,4 +1,4 @@
-package com.autosledz.backend.domain;
+package com.autosledz.backend.domain.traccar;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

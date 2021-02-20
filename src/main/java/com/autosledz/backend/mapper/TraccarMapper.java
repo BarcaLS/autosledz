@@ -1,6 +1,6 @@
 package com.autosledz.backend.mapper;
 
-import com.autosledz.backend.domain.*;
+import com.autosledz.backend.domain.traccar.*;
 import org.springframework.stereotype.Component;
 import static java.util.stream.Collectors.toList;
 
