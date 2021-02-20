@@ -42,7 +42,7 @@ public class AutosledzController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/devices/{deviceId}/updatePosition")
-    public void updatePositionOfDevice(@PathVariable Long deviceId) {
+    public DeviceDto updatePositionOfDevice(@PathVariable Long deviceId) throws DeviceNotFoundException {
         List<TraccarPositionDto> listOfPositions = traccarController.getTraccarPositions();
         for(TraccarPositionDto currentPosition : listOfPositions) {
             Optional<Device> device = service.getDevice(deviceId);
@@ -51,10 +51,13 @@ public class AutosledzController {
                 Float currentPositionLongitude = currentPosition.getLongitude();
                 GeocodingDto currentPositionGeocoding = geocodingService.getGeocoding(currentPositionLatitude, currentPositionLongitude);;
                 if(device.isPresent()) {
-                    service.saveDevice(autosledzMapper.mapToDevice(new DeviceDto(deviceId, service.getDevice(deviceId).get().getName(), device.get().getUniqueId(), currentPositionLatitude, currentPositionLongitude, currentPositionGeocoding.getDisplayName(), service.getDevice(deviceId).get().getCreated(), new Date())));
+                    DeviceDto deviceWithUpdatedPosition = new DeviceDto(deviceId, service.getDevice(deviceId).get().getName(), device.get().getUniqueId(), currentPositionLatitude, currentPositionLongitude, currentPositionGeocoding.getDisplayName(), service.getDevice(deviceId).get().getCreated(), new Date());
+                    service.saveDevice(autosledzMapper.mapToDevice(deviceWithUpdatedPosition));
+                    return deviceWithUpdatedPosition;
                 }
             }
         }
+        throw new DeviceNotFoundException();
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/devices/{deviceId}")

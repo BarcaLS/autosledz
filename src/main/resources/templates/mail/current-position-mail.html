@@ -1,0 +1,35 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Autosledz</title>
+    <style>
+        a {
+            background-color: inherit;
+            color: blue;
+            text-decoration: none;
+        }
+
+        a:hover {
+            background-color: inherit;
+            text-decoration: underline;
+        }
+
+        body {
+            background-color: white;
+            color: #474747;
+            font-family: serif;
+            font-size: 14px;
+            line-height: 1em;
+            text-align: justify;
+        }
+    </style>
+</head>
+<body>
+<p>Hello, it's mail from <span th:text="${admin_name}"></span> (<i><span th:text="${admin_mail}"></span></i>) because <span th:text="${app_name}"></span> has an important message for you:</p>
+<p><span th:text="${message}"></span></p>
+<p>---</p>
+<p><span th:text="${mail_footer}"></span></p>
+</body>
+</html>
