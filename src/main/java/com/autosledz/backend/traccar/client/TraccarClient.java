@@ -159,6 +159,21 @@ public class TraccarClient {
         }
     }
 
+    public List<TraccarDriverDto> getTraccarDrivers() {
+        URI url = UriComponentsBuilder.fromHttpUrl(traccarConfig.getTraccarApiEndpoint() + "/drivers")
+                .build()
+                .encode()
+                .toUri();
+        try {
+            HttpEntity entity = createEntity();
+            ResponseEntity<TraccarDriverDto[]> usersResponse = restTemplate.exchange(url, HttpMethod.GET, entity, TraccarDriverDto[].class);
+            return Arrays.asList(ofNullable(usersResponse.getBody()).orElse(new TraccarDriverDto[0]));
+        } catch (RestClientException e) {
+            LOGGER.error(e.getMessage(), e);
+            return Collections.emptyList();
+        }
+    }
+
     HttpEntity createEntity() {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);

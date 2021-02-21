@@ -29,4 +29,6 @@ public class TraccarService {
     public List<TraccarCalendarDto> fetchTraccarCalendars() { return traccarClient.getTraccarCalendars(); }
 
     public List<TraccarCommandDto> fetchTraccarCommands() { return traccarClient.getTraccarCommands(); }
+
+    public List<TraccarDriverDto> fetchTraccarDrivers() { return traccarClient.getTraccarDrivers(); }
 }

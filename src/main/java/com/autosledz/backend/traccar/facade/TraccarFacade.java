@@ -60,4 +60,9 @@ public class TraccarFacade {
         List<TraccarCommand> traccarCommands = traccarMapper.mapToTraccarCommand(traccarService.fetchTraccarCommands());
         return traccarMapper.mapToTraccarCommandDto(traccarCommands);
     }
+
+    public List<TraccarDriverDto> fetchTraccarDrivers() {
+        List<TraccarDriver> traccarDrivers = traccarMapper.mapToTraccarDriver(traccarService.fetchTraccarDrivers());
+        return traccarMapper.mapToTraccarDriverDto(traccarDrivers);
+    }
 }

@@ -74,4 +74,10 @@ public class TraccarController {
         service.saveEndpoint(new Endpoint("/v1/traccar/commands" , "GET"));
         return traccarFacade.fetchTraccarCommands();
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/drivers")
+    public List<TraccarDriverDto> getTraccarDrivers() {
+        service.saveEndpoint(new Endpoint("/v1/traccar/drivers" , "GET"));
+        return traccarFacade.fetchTraccarDrivers();
+    }
 }

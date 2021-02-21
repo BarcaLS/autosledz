@@ -127,4 +127,18 @@ public class TraccarMapper {
                         new TraccarCommandDto(traccarCommand.getId(), traccarCommand.getDeviceId(), traccarCommand.getDescription(), traccarCommand.getType()))
                 .collect(toList());
     }
+
+    public List<TraccarDriver> mapToTraccarDriver(final List<TraccarDriverDto> traccarDriverDto) {
+        return traccarDriverDto.stream()
+                .map(traccarDriver ->
+                        new TraccarDriver(traccarDriver.getId(), traccarDriver.getName(), traccarDriver.getUniqueId()))
+                .collect(toList());
+    }
+
+    public List<TraccarDriverDto> mapToTraccarDriverDto(final List<TraccarDriver> traccarDrivers) {
+        return traccarDrivers.stream()
+                .map(traccarDriver ->
+                        new TraccarDriverDto(traccarDriver.getId(), traccarDriver.getName(), traccarDriver.getUniqueId()))
+                .collect(toList());
+    }
 }
