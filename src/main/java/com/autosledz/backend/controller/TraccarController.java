@@ -56,4 +56,10 @@ public class TraccarController {
         service.saveEndpoint(new Endpoint("/v1/traccar/notifications" , "GET"));
         return traccarFacade.fetchTraccarNotifications();
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/geofences")
+    public List<TraccarGeofenceDto> getTraccarGeofences() {
+        service.saveEndpoint(new Endpoint("/v1/traccar/geofences" , "GET"));
+        return traccarFacade.fetchTraccarGeofences();
+    }
 }

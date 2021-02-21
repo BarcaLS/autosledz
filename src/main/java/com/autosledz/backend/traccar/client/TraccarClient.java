@@ -114,6 +114,21 @@ public class TraccarClient {
         }
     }
 
+    public List<TraccarGeofenceDto> getTraccarGeofences() {
+        URI url = UriComponentsBuilder.fromHttpUrl(traccarConfig.getTraccarApiEndpoint() + "/geofences")
+                .build()
+                .encode()
+                .toUri();
+        try {
+            HttpEntity entity = createEntity();
+            ResponseEntity<TraccarGeofenceDto[]> usersResponse = restTemplate.exchange(url, HttpMethod.GET, entity, TraccarGeofenceDto[].class);
+            return Arrays.asList(ofNullable(usersResponse.getBody()).orElse(new TraccarGeofenceDto[0]));
+        } catch (RestClientException e) {
+            LOGGER.error(e.getMessage(), e);
+            return Collections.emptyList();
+        }
+    }
+
     HttpEntity createEntity() {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);

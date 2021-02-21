@@ -85,4 +85,18 @@ public class TraccarMapper {
                         new TraccarNotificationDto(traccarNotification.getId(), traccarNotification.getType(), traccarNotification.isAlways(), traccarNotification.isWeb(), traccarNotification.isMail(), traccarNotification.isSms()))
                 .collect(toList());
     }
+
+    public List<TraccarGeofence> mapToTraccarGeofence(final List<TraccarGeofenceDto> traccarGeofenceDto) {
+        return traccarGeofenceDto.stream()
+                .map(traccarGeofence ->
+                        new TraccarGeofence(traccarGeofence.getId(), traccarGeofence.getName(), traccarGeofence.getArea()))
+                .collect(toList());
+    }
+
+    public List<TraccarGeofenceDto> mapToTraccarGeofenceDto(final List<TraccarGeofence> traccarGeofences) {
+        return traccarGeofences.stream()
+                .map(traccarGeofence ->
+                        new TraccarGeofenceDto(traccarGeofence.getId(), traccarGeofence.getName(), traccarGeofence.getArea()))
+                .collect(toList());
+    }
 }

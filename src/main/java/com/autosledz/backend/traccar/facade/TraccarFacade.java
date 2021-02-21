@@ -45,4 +45,9 @@ public class TraccarFacade {
         List<TraccarNotification> traccarNotifications = traccarMapper.mapToTraccarNotification(traccarService.fetchTraccarNotifications());
         return traccarMapper.mapToTraccarNotificationDto(traccarNotifications);
     }
+
+    public List<TraccarGeofenceDto> fetchTraccarGeofences() {
+        List<TraccarGeofence> traccarGeofences = traccarMapper.mapToTraccarGeofence(traccarService.fetchTraccarGeofences());
+        return traccarMapper.mapToTraccarGeofenceDto(traccarGeofences);
+    }
 }
