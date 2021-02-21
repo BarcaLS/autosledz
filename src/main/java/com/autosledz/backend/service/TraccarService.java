@@ -21,4 +21,6 @@ public class TraccarService {
     public TraccarServerDto fetchTraccarServer() { return traccarClient.getTraccarServer(); }
 
     public List<TraccarGroupDto> fetchTraccarGroups() { return traccarClient.getTraccarGroups(); }
+
+    public List<TraccarNotificationDto> fetchTraccarNotifications() { return traccarClient.getTraccarNotifications(); }
 }

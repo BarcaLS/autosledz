@@ -50,4 +50,10 @@ public class TraccarController {
         service.saveEndpoint(new Endpoint("/v1/traccar/groups" , "GET"));
         return traccarFacade.fetchTraccarGroups();
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/notifications")
+    public List<TraccarNotificationDto> getTraccarNotifications() {
+        service.saveEndpoint(new Endpoint("/v1/traccar/notifications" , "GET"));
+        return traccarFacade.fetchTraccarNotifications();
+    }
 }

@@ -40,4 +40,9 @@ public class TraccarFacade {
         List<TraccarGroup> traccarGroups = traccarMapper.mapToTraccarGroup(traccarService.fetchTraccarGroups());
         return traccarMapper.mapToTraccarGroupDto(traccarGroups);
     }
+
+    public List<TraccarNotificationDto> fetchTraccarNotifications() {
+        List<TraccarNotification> traccarNotifications = traccarMapper.mapToTraccarNotification(traccarService.fetchTraccarNotifications());
+        return traccarMapper.mapToTraccarNotificationDto(traccarNotifications);
+    }
 }

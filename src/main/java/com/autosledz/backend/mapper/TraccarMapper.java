@@ -71,4 +71,18 @@ public class TraccarMapper {
                         new TraccarGroupDto(traccarGroup.getId(), traccarGroup.getName(), traccarGroup.getGroupId()))
                 .collect(toList());
     }
+
+    public List<TraccarNotification> mapToTraccarNotification(final List<TraccarNotificationDto> traccarNotificationDto) {
+        return traccarNotificationDto.stream()
+                .map(traccarNotification ->
+                        new TraccarNotification(traccarNotification.getId(), traccarNotification.getType(), traccarNotification.isAlways(), traccarNotification.isWeb(), traccarNotification.isMail(), traccarNotification.isSms()))
+                .collect(toList());
+    }
+
+    public List<TraccarNotificationDto> mapToTraccarNotificationDto(final List<TraccarNotification> traccarNotifications) {
+        return traccarNotifications.stream()
+                .map(traccarNotification ->
+                        new TraccarNotificationDto(traccarNotification.getId(), traccarNotification.getType(), traccarNotification.isAlways(), traccarNotification.isWeb(), traccarNotification.isMail(), traccarNotification.isSms()))
+                .collect(toList());
+    }
 }

@@ -99,6 +99,21 @@ public class TraccarClient {
         }
     }
 
+    public List<TraccarNotificationDto> getTraccarNotifications() {
+        URI url = UriComponentsBuilder.fromHttpUrl(traccarConfig.getTraccarApiEndpoint() + "/notifications")
+                .build()
+                .encode()
+                .toUri();
+        try {
+            HttpEntity entity = createEntity();
+            ResponseEntity<TraccarNotificationDto[]> usersResponse = restTemplate.exchange(url, HttpMethod.GET, entity, TraccarNotificationDto[].class);
+            return Arrays.asList(ofNullable(usersResponse.getBody()).orElse(new TraccarNotificationDto[0]));
+        } catch (RestClientException e) {
+            LOGGER.error(e.getMessage(), e);
+            return Collections.emptyList();
+        }
+    }
+
     HttpEntity createEntity() {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
