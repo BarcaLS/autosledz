@@ -57,4 +57,18 @@ public class TraccarMapper {
     public TraccarServerDto mapToTraccarServerDto(final TraccarServer traccarServer) {
         return new TraccarServerDto(traccarServer.getId(), traccarServer.getMapUrl(), traccarServer.getZoom(), traccarServer.getVersion(), traccarServer.getCpuUsage(), traccarServer.getDiskUsage());
     }
+
+    public List<TraccarGroup> mapToTraccarGroup(final List<TraccarGroupDto> traccarGroupDto) {
+        return traccarGroupDto.stream()
+                .map(traccarGroup ->
+                        new TraccarGroup(traccarGroup.getId(), traccarGroup.getName(), traccarGroup.getGroupId()))
+                .collect(toList());
+    }
+
+    public List<TraccarGroupDto> mapToTraccarGroupDto(final List<TraccarGroup> traccarGroups) {
+        return traccarGroups.stream()
+                .map(traccarGroup ->
+                        new TraccarGroupDto(traccarGroup.getId(), traccarGroup.getName(), traccarGroup.getGroupId()))
+                .collect(toList());
+    }
 }

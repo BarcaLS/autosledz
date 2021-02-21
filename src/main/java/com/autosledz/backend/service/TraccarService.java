@@ -1,9 +1,6 @@
 package com.autosledz.backend.service;
 
-import com.autosledz.backend.domain.traccar.TraccarDeviceDto;
-import com.autosledz.backend.domain.traccar.TraccarPositionDto;
-import com.autosledz.backend.domain.traccar.TraccarServerDto;
-import com.autosledz.backend.domain.traccar.TraccarUserDto;
+import com.autosledz.backend.domain.traccar.*;
 import com.autosledz.backend.traccar.client.TraccarClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,4 +19,6 @@ public class TraccarService {
     public List<TraccarPositionDto> fetchTraccarPositions() { return traccarClient.getTraccarPositions(); }
 
     public TraccarServerDto fetchTraccarServer() { return traccarClient.getTraccarServer(); }
+
+    public List<TraccarGroupDto> fetchTraccarGroups() { return traccarClient.getTraccarGroups(); }
 }

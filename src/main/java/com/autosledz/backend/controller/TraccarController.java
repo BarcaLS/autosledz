@@ -44,4 +44,10 @@ public class TraccarController {
         service.saveEndpoint(new Endpoint("/v1/traccar/server" , "GET"));
         return traccarFacade.fetchTraccarServer();
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/groups")
+    public List<TraccarGroupDto> getTraccarGroups() {
+        service.saveEndpoint(new Endpoint("/v1/traccar/groups" , "GET"));
+        return traccarFacade.fetchTraccarGroups();
+    }
 }
