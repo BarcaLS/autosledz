@@ -1,8 +1,10 @@
 package com.autosledz.backend.controller;
 
+import com.autosledz.backend.domain.Endpoint;
 import com.autosledz.backend.domain.traccar.TraccarDeviceDto;
 import com.autosledz.backend.domain.traccar.TraccarPositionDto;
 import com.autosledz.backend.domain.traccar.TraccarUserDto;
+import com.autosledz.backend.service.DbService;
 import com.autosledz.backend.traccar.facade.TraccarFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,15 +20,24 @@ import java.util.List;
 @RequestMapping("/v1/traccar")
 @RequiredArgsConstructor
 public class TraccarController {
-    @Autowired
     private final TraccarFacade traccarFacade;
+    private final DbService service;
 
     @RequestMapping(method = RequestMethod.GET, value = "/devices")
-    public List<TraccarDeviceDto> getTraccarDevices() { return traccarFacade.fetchTraccarDevices(); }
+    public List<TraccarDeviceDto> getTraccarDevices() {
+        service.saveEndpoint(new Endpoint("/v1/traccar/devices" , "GET"));
+        return traccarFacade.fetchTraccarDevices();
+    }
 
     @RequestMapping(method = RequestMethod.GET, value = "/users")
-    public List<TraccarUserDto> getTraccarUsers() { return traccarFacade.fetchTraccarUsers(); }
+    public List<TraccarUserDto> getTraccarUsers() {
+        service.saveEndpoint(new Endpoint("/v1/traccar/users" , "GET"));
+        return traccarFacade.fetchTraccarUsers();
+    }
 
     @RequestMapping(method = RequestMethod.GET, value = "/positions")
-    public List<TraccarPositionDto> getTraccarPositions() { return traccarFacade.fetchTraccarPositions(); }
+    public List<TraccarPositionDto> getTraccarPositions() {
+        service.saveEndpoint(new Endpoint("/v1/traccar/positions" , "GET"));
+        return traccarFacade.fetchTraccarPositions();
+    }
 }

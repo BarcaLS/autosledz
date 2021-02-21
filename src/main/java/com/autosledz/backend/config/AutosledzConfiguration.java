@@ -18,9 +18,12 @@ public class AutosledzConfiguration {
     @Value("${app.name}")
     private String appName;
 
+    @Value("${device.id.to.scheduled.inform}")
+    private Long deviceIdToScheduledInform;
+
     @Value("${mail.footer}")
     private String mailFooter;
 
-    @Value("${device.id.to.scheduled.inform}")
-    private Long deviceIdToScheduledInform;
+    @Value("${notification.mail}")
+    private String notificationMail;
 }

@@ -1,8 +1,6 @@
 package com.autosledz.backend.controller;
 
-import com.autosledz.backend.domain.Device;
-import com.autosledz.backend.domain.DeviceDto;
-import com.autosledz.backend.domain.GeocodingDto;
+import com.autosledz.backend.domain.*;
 import com.autosledz.backend.domain.traccar.TraccarPositionDto;
 import com.autosledz.backend.mapper.AutosledzMapper;
 import com.autosledz.backend.service.DbService;
@@ -24,25 +22,32 @@ public class AutosledzController {
     private final TraccarController traccarController;
 
     @RequestMapping(method = RequestMethod.GET, value = "/devices")
-    public List<DeviceDto> getDevices() { return autosledzMapper.mapToDeviceDto(service.getAllDevices()); }
+    public List<DeviceDto> getDevices() {
+        service.saveEndpoint(new Endpoint("/v1/devices", "GET"));
+        return autosledzMapper.mapToDeviceDto(service.getAllDevices());
+    }
 
     @RequestMapping(method = RequestMethod.GET, value = "/devices/{deviceId}")
     public DeviceDto getDevice(@PathVariable Long deviceId) throws DeviceNotFoundException {
+        service.saveEndpoint(new Endpoint("/v1/devices/" + deviceId, "GET"));
         return autosledzMapper.mapToDeviceDto(service.getDevice(deviceId).orElseThrow(DeviceNotFoundException::new));
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/devices", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void createDevice(@RequestBody DeviceDto deviceDto) {
+        service.saveEndpoint(new Endpoint("/v1/devices", "POST"));
         service.saveDevice(autosledzMapper.mapToDevice(deviceDto));
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/devices")
     public DeviceDto updateDevice(@RequestBody DeviceDto deviceDto) {
+        service.saveEndpoint(new Endpoint("/v1/devices", "PUT"));
         return autosledzMapper.mapToDeviceDto(service.saveDevice(autosledzMapper.mapToDevice(deviceDto)));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/devices/{deviceId}/updatePosition")
     public DeviceDto updatePositionOfDevice(@PathVariable Long deviceId) throws DeviceNotFoundException {
+        service.saveEndpoint(new Endpoint("/v1/devices/" + deviceId + "/updatePosition", "GET"));
         List<TraccarPositionDto> listOfPositions = traccarController.getTraccarPositions();
         for(TraccarPositionDto currentPosition : listOfPositions) {
             Optional<Device> device = service.getDevice(deviceId);
@@ -62,6 +67,19 @@ public class AutosledzController {
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/devices/{deviceId}")
     public void deleteDevice(@PathVariable Long deviceId) {
+        service.saveEndpoint(new Endpoint("/v1/devices/" + deviceId, "DELETE"));
         service.deleteDevice(deviceId);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/logs")
+    public List<EndpointDto> getLogs() {
+        service.saveEndpoint(new Endpoint("/v1/logs", "GET"));
+        return autosledzMapper.mapToEndpointDto(service.getAllEndpoints());
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/logs/deleteAll")
+    public void deleteLogs() {
+        service.saveEndpoint(new Endpoint("/v1/logs/deleteAll", "GET"));
+        service.deleteAllEndpoints();
     }
 }
