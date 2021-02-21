@@ -49,4 +49,12 @@ public class TraccarMapper {
                         new TraccarPositionDto(traccarPosition.getId(), traccarPosition.getDeviceId(), traccarPosition.getLatitude(), traccarPosition.getLongitude()))
                 .collect(toList());
     }
+
+    public TraccarServer mapToTraccarServer(final TraccarServerDto traccarServerDto) {
+        return new TraccarServer(traccarServerDto.getId(), traccarServerDto.getMapUrl(), traccarServerDto.getZoom(), traccarServerDto.getVersion(), traccarServerDto.getCpuUsage(), traccarServerDto.getDiskUsage());
+    }
+
+    public TraccarServerDto mapToTraccarServerDto(final TraccarServer traccarServer) {
+        return new TraccarServerDto(traccarServer.getId(), traccarServer.getMapUrl(), traccarServer.getZoom(), traccarServer.getVersion(), traccarServer.getCpuUsage(), traccarServer.getDiskUsage());
+    }
 }

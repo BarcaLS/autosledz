@@ -71,6 +71,12 @@ public class AutosledzController {
         service.deleteDevice(deviceId);
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/devices/deleteAll")
+    public void deleteDevices() {
+        service.saveEndpoint(new Endpoint("/v1/devices/deleteAll", "GET"));
+        service.deleteAllDevices();
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = "/logs")
     public List<EndpointDto> getLogs() {
         service.saveEndpoint(new Endpoint("/v1/logs", "GET"));

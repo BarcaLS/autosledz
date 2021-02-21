@@ -30,4 +30,9 @@ public class TraccarFacade {
         List<TraccarPosition> traccarPositions = traccarMapper.mapToTraccarPositions(traccarService.fetchTraccarPositions());
         return traccarMapper.mapToTraccarPositionsDto(traccarPositions);
     }
+
+    public TraccarServerDto fetchTraccarServer() {
+        TraccarServer traccarServer = traccarMapper.mapToTraccarServer(traccarService.fetchTraccarServer());
+        return traccarMapper.mapToTraccarServerDto(traccarServer);
+    }
 }

@@ -1,9 +1,7 @@
 package com.autosledz.backend.controller;
 
 import com.autosledz.backend.domain.Endpoint;
-import com.autosledz.backend.domain.traccar.TraccarDeviceDto;
-import com.autosledz.backend.domain.traccar.TraccarPositionDto;
-import com.autosledz.backend.domain.traccar.TraccarUserDto;
+import com.autosledz.backend.domain.traccar.*;
 import com.autosledz.backend.service.DbService;
 import com.autosledz.backend.traccar.facade.TraccarFacade;
 import lombok.RequiredArgsConstructor;
@@ -39,5 +37,11 @@ public class TraccarController {
     public List<TraccarPositionDto> getTraccarPositions() {
         service.saveEndpoint(new Endpoint("/v1/traccar/positions" , "GET"));
         return traccarFacade.fetchTraccarPositions();
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/server")
+    public TraccarServerDto getTraccarServer() {
+        service.saveEndpoint(new Endpoint("/v1/traccar/server" , "GET"));
+        return traccarFacade.fetchTraccarServer();
     }
 }

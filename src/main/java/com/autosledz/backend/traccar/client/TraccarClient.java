@@ -2,6 +2,7 @@ package com.autosledz.backend.traccar.client;
 
 import com.autosledz.backend.domain.traccar.TraccarDeviceDto;
 import com.autosledz.backend.domain.traccar.TraccarPositionDto;
+import com.autosledz.backend.domain.traccar.TraccarServerDto;
 import com.autosledz.backend.domain.traccar.TraccarUserDto;
 import com.autosledz.backend.traccar.config.TraccarConfig;
 import lombok.RequiredArgsConstructor;
@@ -68,6 +69,21 @@ public class TraccarClient {
         } catch (RestClientException e) {
             LOGGER.error(e.getMessage(), e);
             return Collections.emptyList();
+        }
+    }
+
+    public TraccarServerDto getTraccarServer() {
+        URI url = UriComponentsBuilder.fromHttpUrl(traccarConfig.getTraccarApiEndpoint() + "/server")
+                .build()
+                .encode()
+                .toUri();
+        try {
+            HttpEntity entity = createEntity();
+            ResponseEntity<TraccarServerDto> usersResponse = restTemplate.exchange(url, HttpMethod.GET, entity, TraccarServerDto.class);
+            return ofNullable(usersResponse.getBody()).orElse(new TraccarServerDto());
+        } catch (RestClientException e) {
+            LOGGER.error(e.getMessage(), e);
+            return new TraccarServerDto();
         }
     }
 

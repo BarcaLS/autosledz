@@ -28,6 +28,10 @@ public class DbService {
         deviceRepository.deleteById(id);
     }
 
+    public void deleteAllDevices() {
+        deviceRepository.deleteAll();
+    }
+
     public List<Endpoint> getAllEndpoints() {
         return endpointRepository.findAll();
     }

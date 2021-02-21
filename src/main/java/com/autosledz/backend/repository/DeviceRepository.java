@@ -13,4 +13,5 @@ public interface DeviceRepository extends CrudRepository<Device, Long> {
     Optional<Device> findById(Long id);
     Device save(Device device);
     void deleteById(Long id);
+    void deleteAll();
 }
