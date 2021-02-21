@@ -50,4 +50,9 @@ public class TraccarFacade {
         List<TraccarGeofence> traccarGeofences = traccarMapper.mapToTraccarGeofence(traccarService.fetchTraccarGeofences());
         return traccarMapper.mapToTraccarGeofenceDto(traccarGeofences);
     }
+
+    public List<TraccarCalendarDto> fetchTraccarCalendars() {
+        List<TraccarCalendar> traccarCalendars = traccarMapper.mapToTraccarCalendar(traccarService.fetchTraccarCalendars());
+        return traccarMapper.mapToTraccarCalendarDto(traccarCalendars);
+    }
 }

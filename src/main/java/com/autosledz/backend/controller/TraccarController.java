@@ -62,4 +62,10 @@ public class TraccarController {
         service.saveEndpoint(new Endpoint("/v1/traccar/geofences" , "GET"));
         return traccarFacade.fetchTraccarGeofences();
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/calendars")
+    public List<TraccarCalendarDto> getTraccarCalendars() {
+        service.saveEndpoint(new Endpoint("/v1/traccar/calendars" , "GET"));
+        return traccarFacade.fetchTraccarCalendars();
+    }
 }

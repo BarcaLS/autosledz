@@ -99,4 +99,18 @@ public class TraccarMapper {
                         new TraccarGeofenceDto(traccarGeofence.getId(), traccarGeofence.getName(), traccarGeofence.getArea()))
                 .collect(toList());
     }
+
+    public List<TraccarCalendar> mapToTraccarCalendar(final List<TraccarCalendarDto> traccarCalendarDto) {
+        return traccarCalendarDto.stream()
+                .map(traccarCalendar ->
+                        new TraccarCalendar(traccarCalendar.getId(), traccarCalendar.getName(), traccarCalendar.getDate()))
+                .collect(toList());
+    }
+
+    public List<TraccarCalendarDto> mapToTraccarCalendarDto(final List<TraccarCalendar> traccarCalendars) {
+        return traccarCalendars.stream()
+                .map(traccarCalendar ->
+                        new TraccarCalendarDto(traccarCalendar.getId(), traccarCalendar.getName(), traccarCalendar.getDate()))
+                .collect(toList());
+    }
 }

@@ -129,6 +129,21 @@ public class TraccarClient {
         }
     }
 
+    public List<TraccarCalendarDto> getTraccarCalendars() {
+        URI url = UriComponentsBuilder.fromHttpUrl(traccarConfig.getTraccarApiEndpoint() + "/calendars")
+                .build()
+                .encode()
+                .toUri();
+        try {
+            HttpEntity entity = createEntity();
+            ResponseEntity<TraccarCalendarDto[]> usersResponse = restTemplate.exchange(url, HttpMethod.GET, entity, TraccarCalendarDto[].class);
+            return Arrays.asList(ofNullable(usersResponse.getBody()).orElse(new TraccarCalendarDto[0]));
+        } catch (RestClientException e) {
+            LOGGER.error(e.getMessage(), e);
+            return Collections.emptyList();
+        }
+    }
+
     HttpEntity createEntity() {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
