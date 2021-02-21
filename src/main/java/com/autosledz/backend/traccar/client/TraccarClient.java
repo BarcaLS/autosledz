@@ -144,6 +144,21 @@ public class TraccarClient {
         }
     }
 
+    public List<TraccarCommandDto> getTraccarCommands() {
+        URI url = UriComponentsBuilder.fromHttpUrl(traccarConfig.getTraccarApiEndpoint() + "/commands")
+                .build()
+                .encode()
+                .toUri();
+        try {
+            HttpEntity entity = createEntity();
+            ResponseEntity<TraccarCommandDto[]> usersResponse = restTemplate.exchange(url, HttpMethod.GET, entity, TraccarCommandDto[].class);
+            return Arrays.asList(ofNullable(usersResponse.getBody()).orElse(new TraccarCommandDto[0]));
+        } catch (RestClientException e) {
+            LOGGER.error(e.getMessage(), e);
+            return Collections.emptyList();
+        }
+    }
+
     HttpEntity createEntity() {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);

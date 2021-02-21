@@ -55,4 +55,9 @@ public class TraccarFacade {
         List<TraccarCalendar> traccarCalendars = traccarMapper.mapToTraccarCalendar(traccarService.fetchTraccarCalendars());
         return traccarMapper.mapToTraccarCalendarDto(traccarCalendars);
     }
+
+    public List<TraccarCommandDto> fetchTraccarCommands() {
+        List<TraccarCommand> traccarCommands = traccarMapper.mapToTraccarCommand(traccarService.fetchTraccarCommands());
+        return traccarMapper.mapToTraccarCommandDto(traccarCommands);
+    }
 }

@@ -68,4 +68,10 @@ public class TraccarController {
         service.saveEndpoint(new Endpoint("/v1/traccar/calendars" , "GET"));
         return traccarFacade.fetchTraccarCalendars();
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/commands")
+    public List<TraccarCommandDto> getTraccarCommands() {
+        service.saveEndpoint(new Endpoint("/v1/traccar/commands" , "GET"));
+        return traccarFacade.fetchTraccarCommands();
+    }
 }

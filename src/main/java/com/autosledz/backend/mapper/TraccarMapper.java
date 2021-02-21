@@ -113,4 +113,18 @@ public class TraccarMapper {
                         new TraccarCalendarDto(traccarCalendar.getId(), traccarCalendar.getName(), traccarCalendar.getDate()))
                 .collect(toList());
     }
+
+    public List<TraccarCommand> mapToTraccarCommand(final List<TraccarCommandDto> traccarCommandDto) {
+        return traccarCommandDto.stream()
+                .map(traccarCommand ->
+                        new TraccarCommand(traccarCommand.getId(), traccarCommand.getDeviceId(), traccarCommand.getDescription(), traccarCommand.getType()))
+                .collect(toList());
+    }
+
+    public List<TraccarCommandDto> mapToTraccarCommandDto(final List<TraccarCommand> traccarCommands) {
+        return traccarCommands.stream()
+                .map(traccarCommand ->
+                        new TraccarCommandDto(traccarCommand.getId(), traccarCommand.getDeviceId(), traccarCommand.getDescription(), traccarCommand.getType()))
+                .collect(toList());
+    }
 }

@@ -27,4 +27,6 @@ public class TraccarService {
     public List<TraccarGeofenceDto> fetchTraccarGeofences() { return traccarClient.getTraccarGeofences(); }
 
     public List<TraccarCalendarDto> fetchTraccarCalendars() { return traccarClient.getTraccarCalendars(); }
+
+    public List<TraccarCommandDto> fetchTraccarCommands() { return traccarClient.getTraccarCommands(); }
 }
