@@ -1,6 +1,5 @@
 package com.autosledz.backend.controller;
 
-import com.autosledz.backend.domain.DeviceDto;
 import com.autosledz.backend.domain.traccar.*;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
