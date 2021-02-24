@@ -1,7 +1,7 @@
 package com.autosledz.backend.scheduler;
 
-import com.autosledz.backend.config.AutosledzConfiguration;
-import com.autosledz.backend.controller.AutosledzController;
+import com.autosledz.backend.config.CarTrackConfiguration;
+import com.autosledz.backend.controller.CarTrackController;
 import com.autosledz.backend.controller.DeviceNotFoundException;
 import com.autosledz.backend.domain.DeviceDto;
 import com.autosledz.backend.domain.Mail;
@@ -15,17 +15,17 @@ import org.springframework.stereotype.Component;
 public class EmailScheduler {
     private static final String SUBJECT = "New message from Autosledz";
     private final SimpleEmailService simpleEmailService;
-    private final AutosledzConfiguration autosledzConfiguration;
-    private final AutosledzController autosledzController;
+    private final CarTrackConfiguration carTrackConfiguration;
+    private final CarTrackController carTrackController;
 
     @Scheduled(cron = "0 0 23 * * *")
     public void sendInformationEmail() throws DeviceNotFoundException {
-        DeviceDto deviceDto = autosledzController.updatePositionOfDevice(autosledzConfiguration.getDeviceIdToScheduledInform());
+        DeviceDto deviceDto = carTrackController.updatePositionOfDevice(carTrackConfiguration.getDeviceIdToScheduledInform());
         String message = "Device " + deviceDto.getName() + " is at " + deviceDto.getDisplayName() + " (position updated: " + deviceDto.getUpdated() + ").";
         Mail mail = new Mail.MailBuilder()
                 .subject(SUBJECT)
                 .message(message)
-                .mailTo(autosledzConfiguration.getAdminMail())
+                .mailTo(carTrackConfiguration.getAdminMail())
                 .mailTo("someothermail@imaginedserver.com")
                 .build();
         simpleEmailService.send(mail);

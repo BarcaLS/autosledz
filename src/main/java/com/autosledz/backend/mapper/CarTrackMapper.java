@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class AutosledzMapper {
+public class CarTrackMapper {
     public Device mapToDevice(final DeviceDto deviceDto) {
         return new Device (
                 deviceDto.getId(),

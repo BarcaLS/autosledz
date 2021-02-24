@@ -2,7 +2,7 @@ package com.autosledz.backend.controller;
 
 import com.autosledz.backend.domain.*;
 import com.autosledz.backend.domain.traccar.TraccarPositionDto;
-import com.autosledz.backend.mapper.AutosledzMapper;
+import com.autosledz.backend.mapper.CarTrackMapper;
 import com.autosledz.backend.service.DbService;
 import com.autosledz.backend.service.GeocodingService;
 import lombok.RequiredArgsConstructor;
@@ -15,34 +15,34 @@ import java.util.*;
 @RequestMapping("/v1")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
-public class AutosledzController {
+public class CarTrackController {
     private final DbService service;
     private final GeocodingService geocodingService;
-    private final AutosledzMapper autosledzMapper;
+    private final CarTrackMapper carTrackMapper;
     private final TraccarController traccarController;
 
     @RequestMapping(method = RequestMethod.GET, value = "/devices")
     public List<DeviceDto> getDevices() {
         service.saveEndpoint(new Endpoint("/v1/devices", "GET"));
-        return autosledzMapper.mapToDeviceDto(service.getAllDevices());
+        return carTrackMapper.mapToDeviceDto(service.getAllDevices());
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/devices/{deviceId}")
     public DeviceDto getDevice(@PathVariable Long deviceId) throws DeviceNotFoundException {
         service.saveEndpoint(new Endpoint("/v1/devices/" + deviceId, "GET"));
-        return autosledzMapper.mapToDeviceDto(service.getDevice(deviceId).orElseThrow(DeviceNotFoundException::new));
+        return carTrackMapper.mapToDeviceDto(service.getDevice(deviceId).orElseThrow(DeviceNotFoundException::new));
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/devices", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void createDevice(@RequestBody DeviceDto deviceDto) {
         service.saveEndpoint(new Endpoint("/v1/devices", "POST"));
-        service.saveDevice(autosledzMapper.mapToDevice(deviceDto));
+        service.saveDevice(carTrackMapper.mapToDevice(deviceDto));
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/devices")
     public DeviceDto updateDevice(@RequestBody DeviceDto deviceDto) {
         service.saveEndpoint(new Endpoint("/v1/devices", "PUT"));
-        return autosledzMapper.mapToDeviceDto(service.saveDevice(autosledzMapper.mapToDevice(deviceDto)));
+        return carTrackMapper.mapToDeviceDto(service.saveDevice(carTrackMapper.mapToDevice(deviceDto)));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/devices/{deviceId}/updatePosition")
@@ -57,7 +57,7 @@ public class AutosledzController {
                 GeocodingDto currentPositionGeocoding = geocodingService.getGeocoding(currentPositionLatitude, currentPositionLongitude);;
                 if(device.isPresent()) {
                     DeviceDto deviceWithUpdatedPosition = new DeviceDto(deviceId, service.getDevice(deviceId).get().getName(), device.get().getUniqueId(), currentPositionLatitude, currentPositionLongitude, currentPositionGeocoding.getDisplayName(), service.getDevice(deviceId).get().getCreated(), new Date());
-                    service.saveDevice(autosledzMapper.mapToDevice(deviceWithUpdatedPosition));
+                    service.saveDevice(carTrackMapper.mapToDevice(deviceWithUpdatedPosition));
                     return deviceWithUpdatedPosition;
                 }
             }
@@ -80,7 +80,7 @@ public class AutosledzController {
     @RequestMapping(method = RequestMethod.GET, value = "/logs")
     public List<EndpointDto> getLogs() {
         service.saveEndpoint(new Endpoint("/v1/logs", "GET"));
-        return autosledzMapper.mapToEndpointDto(service.getAllEndpoints());
+        return carTrackMapper.mapToEndpointDto(service.getAllEndpoints());
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/logs/deleteAll")

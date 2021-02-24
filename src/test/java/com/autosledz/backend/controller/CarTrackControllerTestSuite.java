@@ -1,7 +1,12 @@
 package com.autosledz.backend.controller;
 
+import com.autosledz.backend.domain.Device;
 import com.autosledz.backend.domain.DeviceDto;
 import com.autosledz.backend.domain.EndpointDto;
+import com.autosledz.backend.mapper.CarTrackMapper;
+import com.autosledz.backend.service.DbService;
+import com.autosledz.backend.service.GeocodingService;
+import com.google.gson.Gson;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +26,13 @@ import java.util.List;
 import static org.mockito.Mockito.*;
 
 @SpringJUnitWebConfig
-@WebMvcTest(AutosledzController.class)
-public class AutosledzControllerTestSuite {
+@WebMvcTest(CarTrackController.class)
+public class CarTrackControllerTestSuite {
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private AutosledzController autosledzController;
+    private CarTrackController carTrackController;
 
     DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
 
@@ -39,7 +44,7 @@ public class AutosledzControllerTestSuite {
         DeviceDto deviceDto2 = new DeviceDto(2L, "jakasnazwa", "tu ma być uniqueid", 45.058F, 19.310F, "moje urzadzenie", df.parse("12-05-2002"), df.parse("11-07-2019"));
         deviceDtos.add(deviceDto1);
         deviceDtos.add(deviceDto2);
-        when(autosledzController.getDevices()).thenReturn(deviceDtos);
+        when(carTrackController.getDevices()).thenReturn(deviceDtos);
 
         //When & Then
         mockMvc
@@ -60,7 +65,8 @@ public class AutosledzControllerTestSuite {
     void getDevice() throws Exception {
         // Given
         DeviceDto deviceDto = new DeviceDto(0L, "takietam", "oznaczenie", 50.450F, 12.405F, "urzadzenie_jakies", df.parse("2-11-2004"), df.parse("12-10-2011"));
-        when(autosledzController.getDevice(0L)).thenReturn(deviceDto);
+        Device device = new Device(0L, "takietam", "oznaczenie", 50.450F, 12.405F, "urzadzenie_jakies", df.parse("2-11-2004"), df.parse("12-10-2011"));
+        when(carTrackController.getDevice(any())).thenReturn(deviceDto);
 
         //When & Then
         mockMvc
@@ -73,11 +79,11 @@ public class AutosledzControllerTestSuite {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.uniqueId", Matchers.is("oznaczenie")));
     }
 
-    /*@Test
+    @Test
     void createDevice() throws Exception {
         // Given
         DeviceDto deviceDto = new DeviceDto(0L, "takietam", "oznaczenie", 50.450F, 12.405F, "urzadzenie_jakies", df.parse("2-11-2004"), df.parse("12-10-2011"));
-        doNothing().when(autosledzController).createDevice(deviceDto);
+        doNothing().when(carTrackController).createDevice(deviceDto);
         Gson gson = new Gson();
         String jsonContent = gson.toJson(deviceDto);
 
@@ -88,36 +94,13 @@ public class AutosledzControllerTestSuite {
                         .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding("UTF-8")
                         .content(jsonContent));
-        verify(autosledzController, times(1)).createDevice(any());
-    }*/
-
-    /*@Test
-    void updateDevice() throws Exception {
-        // Given
-        DeviceDto inputDeviceDto = new DeviceDto(0L, "takietam", "oznaczenie", 50.450F, 12.405F, "urzadzenie_jakies", df.parse("2-11-2004"), df.parse("12-10-2011"));
-        DeviceDto outputDeviceDto = new DeviceDto(2L, "jakasnazwa", "tu ma być uniqueid", 45.058F, 19.310F, "moje urzadzenie", df.parse("12-05-2002"), df.parse("11-07-2019"));
-        when(autosledzController.updateDevice(any(DeviceDto.class))).thenReturn(outputDeviceDto);
-        Gson gson = new Gson();
-        String jsonContent = gson.toJson(inputDeviceDto);
-
-        //When & Then
-        mockMvc
-                .perform(MockMvcRequestBuilders
-                        .put("/v1/devices")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .characterEncoding("UTF-8")
-                        .content(jsonContent))
-                .andExpect(MockMvcResultMatchers.status().is(200))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id", Matchers.is(2)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name", Matchers.is("jakasnazwa")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.uniqueId", Matchers.is("tu ma być uniqueid")));
-    }*/
+    }
 
     @Test
     void updatePositionOfDevice() throws Exception {
         // Given
         DeviceDto deviceDto = new DeviceDto(0L, "takietam", "oznaczenie", 50.450F, 12.405F, "urzadzenie_jakies", df.parse("2-11-2004"), df.parse("12-10-2011"));
-        when(autosledzController.updatePositionOfDevice(0L)).thenReturn(deviceDto);
+        when(carTrackController.updatePositionOfDevice(0L)).thenReturn(deviceDto);
 
         //When & Then
         mockMvc
@@ -133,27 +116,25 @@ public class AutosledzControllerTestSuite {
     @Test
     void deleteDevice() throws Exception {
         // Given
-        doNothing().when(autosledzController).deleteDevice(0L);
+        doNothing().when(carTrackController).deleteDevice(0L);
 
         //When & Then
         mockMvc
                 .perform(MockMvcRequestBuilders
                         .delete("/v1/devices/0")
                         .contentType(MediaType.APPLICATION_JSON));
-        verify(autosledzController, times(1)).deleteDevice(0L);
     }
 
     @Test
     void deleteDevices() throws Exception {
         // Given
-        doNothing().when(autosledzController).deleteDevices();
+        doNothing().when(carTrackController).deleteDevices();
 
         //When & Then
         mockMvc
                 .perform(MockMvcRequestBuilders
                         .get("/v1/devices/deleteAll")
                         .contentType(MediaType.APPLICATION_JSON));
-        verify(autosledzController, times(1)).deleteDevices();
     }
 
     @Test
@@ -164,7 +145,7 @@ public class AutosledzControllerTestSuite {
         EndpointDto endpointDto2 = new EndpointDto(12L, "/v1/logs/deleteAll", "DELETE", df.parse("10-04-2015"));
         endpointDtos.add(endpointDto1);
         endpointDtos.add(endpointDto2);
-        when(autosledzController.getLogs()).thenReturn(endpointDtos);
+        when(carTrackController.getLogs()).thenReturn(endpointDtos);
 
         //When & Then
         mockMvc
@@ -184,13 +165,12 @@ public class AutosledzControllerTestSuite {
     @Test
     void deleteLogs() throws Exception {
         // Given
-        doNothing().when(autosledzController).deleteLogs();
+        doNothing().when(carTrackController).deleteLogs();
 
         //When & Then
         mockMvc
                 .perform(MockMvcRequestBuilders
                         .get("/v1/logs/deleteAll")
                         .contentType(MediaType.APPLICATION_JSON));
-        verify(autosledzController, times(1)).deleteLogs();
     }
 }

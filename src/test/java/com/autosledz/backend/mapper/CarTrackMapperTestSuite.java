@@ -19,9 +19,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
-public class AutosledzMapperTestSuite {
+public class CarTrackMapperTestSuite {
     @Autowired
-    private AutosledzMapper autosledzMapper;
+    private CarTrackMapper carTrackMapper;
 
     DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
 
@@ -31,7 +31,7 @@ public class AutosledzMapperTestSuite {
         DeviceDto deviceDto = new DeviceDto(0L, "takietam", "oznaczenie", 50.450F, 12.405F, "urzadzenie_jakies", df.parse("2-11-2004"), df.parse("12-10-2011"));
 
         // When
-        Device device = autosledzMapper.mapToDevice(deviceDto);
+        Device device = carTrackMapper.mapToDevice(deviceDto);
 
         // Then
         assertEquals("takietam", device.getName());
@@ -43,7 +43,7 @@ public class AutosledzMapperTestSuite {
         Device device = new Device(0L, "takietam", "oznaczenie", 50.450F, 12.405F, "urzadzenie_jakies", df.parse("2-11-2004"), df.parse("12-10-2011"));
 
         // When
-        DeviceDto deviceDto = autosledzMapper.mapToDeviceDto(device);
+        DeviceDto deviceDto = carTrackMapper.mapToDeviceDto(device);
 
         // Then
         assertEquals("takietam", device.getName());
@@ -56,7 +56,7 @@ public class AutosledzMapperTestSuite {
         Device device2 = new Device(1L, "inne takietam", "oznaczenie2", 40.409F, 13.815F, "urzadzenie2", df.parse("12-5-2019"), df.parse("19-01-2020"));
 
         // When
-        List<DeviceDto> deviceDtos = autosledzMapper.mapToDeviceDto(List.of(device1, device2));
+        List<DeviceDto> deviceDtos = carTrackMapper.mapToDeviceDto(List.of(device1, device2));
 
         // Then
         assertEquals(2, deviceDtos.size());
@@ -68,7 +68,7 @@ public class AutosledzMapperTestSuite {
         Endpoint endpoint = new Endpoint(5L, "/v1/devices", "GET", df.parse("12-10-2011"));
 
         // When
-        EndpointDto endpointDto = autosledzMapper.mapToEndpointDto(endpoint);
+        EndpointDto endpointDto = carTrackMapper.mapToEndpointDto(endpoint);
 
         // Then
         assertEquals("/v1/devices", endpoint.getEndpoint());
@@ -81,7 +81,7 @@ public class AutosledzMapperTestSuite {
         Endpoint endpoint2 = new Endpoint(12L, "/v1/logs/deleteAll", "DELETE", df.parse("10-04-2015"));
 
         // When
-        List<EndpointDto> endpointDtos = autosledzMapper.mapToEndpointDto(List.of(endpoint1, endpoint2));
+        List<EndpointDto> endpointDtos = carTrackMapper.mapToEndpointDto(List.of(endpoint1, endpoint2));
 
         // Then
         assertEquals(2, endpointDtos.size());

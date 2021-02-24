@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @EnableScheduling
 @Getter
 @Component
-public class AutosledzConfiguration {
+public class CarTrackConfiguration {
     @Value("${admin.name}")
     private String adminName;
 
