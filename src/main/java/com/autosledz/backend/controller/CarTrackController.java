@@ -3,6 +3,7 @@ package com.autosledz.backend.controller;
 import com.autosledz.backend.domain.*;
 import com.autosledz.backend.domain.traccar.TraccarPositionDto;
 import com.autosledz.backend.mapper.CarTrackMapper;
+import com.autosledz.backend.service.CarTrackService;
 import com.autosledz.backend.service.DbService;
 import com.autosledz.backend.service.GeocodingService;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ import java.util.*;
 public class CarTrackController {
     private final DbService service;
     private final GeocodingService geocodingService;
+    private final CarTrackService carTrackService;
     private final CarTrackMapper carTrackMapper;
     private final TraccarController traccarController;
 
@@ -48,21 +50,7 @@ public class CarTrackController {
     @RequestMapping(method = RequestMethod.GET, value = "/devices/{deviceId}/updatePosition")
     public DeviceDto updatePositionOfDevice(@PathVariable Long deviceId) throws DeviceNotFoundException {
         service.saveEndpoint(new Endpoint("/v1/devices/" + deviceId + "/updatePosition", "GET"));
-        List<TraccarPositionDto> listOfPositions = traccarController.getTraccarPositions();
-        for(TraccarPositionDto currentPosition : listOfPositions) {
-            Optional<Device> device = service.getDevice(deviceId);
-            if(currentPosition.getDeviceId() == Long.parseLong(device.get().getUniqueId())) {
-                Float currentPositionLatitude = currentPosition.getLatitude();
-                Float currentPositionLongitude = currentPosition.getLongitude();
-                GeocodingDto currentPositionGeocoding = geocodingService.getGeocoding(currentPositionLatitude, currentPositionLongitude);;
-                if(device.isPresent()) {
-                    DeviceDto deviceWithUpdatedPosition = new DeviceDto(deviceId, service.getDevice(deviceId).get().getName(), device.get().getUniqueId(), currentPositionLatitude, currentPositionLongitude, currentPositionGeocoding.getDisplayName(), service.getDevice(deviceId).get().getCreated(), new Date());
-                    service.saveDevice(carTrackMapper.mapToDevice(deviceWithUpdatedPosition));
-                    return deviceWithUpdatedPosition;
-                }
-            }
-        }
-        throw new DeviceNotFoundException();
+        return carTrackService.updatePositionOfDevice(deviceId);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/devices/{deviceId}")
