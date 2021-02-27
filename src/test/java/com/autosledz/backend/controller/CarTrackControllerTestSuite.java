@@ -252,4 +252,97 @@ public class CarTrackControllerTestSuite {
                         .get("/v1/geofences/deleteAll")
                         .contentType(MediaType.APPLICATION_JSON));
     }
+
+    @Test
+    void getServers() throws Exception {
+        // Given
+        List<ServerDto> ServerDtos = new ArrayList<>();
+        ServerDto ServerDto1 = new ServerDto(0L, "http://maps.google.pl", 0, "4.1", 12.5F, 5.6F);
+        ServerDto ServerDto2 = new ServerDto(2L, "http://openstreetmap.com", 5, "4.0", 10.4F, 7.1F);
+        ServerDtos.add(ServerDto1);
+        ServerDtos.add(ServerDto2);
+        when(carTrackController.getServers()).thenReturn(ServerDtos);
+
+        //When & Then
+        mockMvc
+                .perform(MockMvcRequestBuilders
+                        .get("/v1/servers")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().is(200))
+                .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(2)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].id", Matchers.is(0)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].mapUrl", Matchers.is("http://maps.google.pl")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].zoom", Matchers.is(0)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].version", Matchers.is("4.1")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].cpuUsage", Matchers.is(12.5)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].diskUsage", Matchers.is(5.6)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].id", Matchers.is(2)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].mapUrl", Matchers.is("http://openstreetmap.com")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].zoom", Matchers.is(5)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].version", Matchers.is("4.0")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].cpuUsage", Matchers.is(10.4)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].diskUsage", Matchers.is(7.1)));
+    }
+
+    @Test
+    void getServer() throws Exception {
+        // Given
+        ServerDto ServerDto = new ServerDto(0L, "http://maps.google.pl", 0, "4.1", 12.5F, 5.6F);
+        Server server = new Server(2L, "http://openstreetmap.com", 5, "4.0", 10.4F, 7.1F);
+        when(carTrackController.getServer(any())).thenReturn(ServerDto);
+
+        //When & Then
+        mockMvc
+                .perform(MockMvcRequestBuilders
+                        .get("/v1/servers/0")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().is(200))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id", Matchers.is(0)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.mapUrl", Matchers.is("http://maps.google.pl")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.zoom", Matchers.is(0)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.version", Matchers.is("4.1")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.cpuUsage", Matchers.is(12.5)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.diskUsage", Matchers.is(5.6)));
+    }
+
+    @Test
+    void createServer() throws Exception {
+        // Given
+        ServerDto ServerDto = new ServerDto(0L, "http://maps.google.pl", 0, "4.1", 12.5F, 5.6F);
+        doNothing().when(carTrackController).createServer(ServerDto);
+        Gson gson = new Gson();
+        String jsonContent = gson.toJson(ServerDto);
+
+        //When & Then
+        mockMvc
+                .perform(MockMvcRequestBuilders
+                        .post("/v1/servers")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("UTF-8")
+                        .content(jsonContent));
+    }
+
+    @Test
+    void deleteServer() throws Exception {
+        // Given
+        doNothing().when(carTrackController).deleteServer(0L);
+
+        //When & Then
+        mockMvc
+                .perform(MockMvcRequestBuilders
+                        .delete("/v1/servers/0")
+                        .contentType(MediaType.APPLICATION_JSON));
+    }
+
+    @Test
+    void deleteServers() throws Exception {
+        // Given
+        doNothing().when(carTrackController).deleteServers();
+
+        //When & Then
+        mockMvc
+                .perform(MockMvcRequestBuilders
+                        .get("/v1/servers/deleteAll")
+                        .contentType(MediaType.APPLICATION_JSON));
+    }
 }

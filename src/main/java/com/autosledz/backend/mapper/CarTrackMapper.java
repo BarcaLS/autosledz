@@ -76,4 +76,32 @@ public class CarTrackMapper {
                 .map(this::mapToGeofenceDto)
                 .collect(Collectors.toList());
     }
+
+    public Server mapToServer(final ServerDto ServerDto) {
+        return new Server (
+                ServerDto.getId(),
+                ServerDto.getMapUrl(),
+                ServerDto.getZoom(),
+                ServerDto.getVersion(),
+                ServerDto.getCpuUsage(),
+                ServerDto.getDiskUsage()
+        );
+    }
+
+    public ServerDto mapToServerDto(final Server Server) {
+        return new ServerDto (
+                Server.getId(),
+                Server.getMapUrl(),
+                Server.getZoom(),
+                Server.getVersion(),
+                Server.getCpuUsage(),
+                Server.getDiskUsage()
+        );
+    }
+
+    public List<ServerDto> mapToServerDto(final List<Server> ServerList) {
+        return ServerList.stream()
+                .map(this::mapToServerDto)
+                .collect(Collectors.toList());
+    }
 }

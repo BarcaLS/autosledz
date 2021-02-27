@@ -108,4 +108,40 @@ public class CarTrackController {
         service.saveEndpoint(new Endpoint("/v1/geofences/deleteAll", "GET"));
         service.deleteAllGeofences();
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/servers")
+    public List<ServerDto> getServers() {
+        service.saveEndpoint(new Endpoint("/v1/servers", "GET"));
+        return carTrackMapper.mapToServerDto(service.getAllServers());
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/servers/{serverId}")
+    public ServerDto getServer(@PathVariable Long serverId) throws ServerNotFoundException {
+        service.saveEndpoint(new Endpoint("/v1/servers/" + serverId, "GET"));
+        return carTrackMapper.mapToServerDto(service.getServer(serverId).orElseThrow(ServerNotFoundException::new));
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/servers", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void createServer(@RequestBody ServerDto ServerDto) {
+        service.saveEndpoint(new Endpoint("/v1/servers", "POST"));
+        service.saveServer(carTrackMapper.mapToServer(ServerDto));
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, value = "/servers")
+    public ServerDto updateServer(@RequestBody ServerDto ServerDto) {
+        service.saveEndpoint(new Endpoint("/v1/servers", "PUT"));
+        return carTrackMapper.mapToServerDto(service.saveServer(carTrackMapper.mapToServer(ServerDto)));
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "/servers/{serverId}")
+    public void deleteServer(@PathVariable Long serverId) {
+        service.saveEndpoint(new Endpoint("/v1/servers/" + serverId, "DELETE"));
+        service.deleteServer(serverId);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/servers/deleteAll")
+    public void deleteServers() {
+        service.saveEndpoint(new Endpoint("/v1/servers/deleteAll", "GET"));
+        service.deleteAllServers();
+    }
 }
