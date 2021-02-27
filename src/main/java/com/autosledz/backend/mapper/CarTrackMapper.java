@@ -1,9 +1,6 @@
 package com.autosledz.backend.mapper;
 
-import com.autosledz.backend.domain.Device;
-import com.autosledz.backend.domain.DeviceDto;
-import com.autosledz.backend.domain.Endpoint;
-import com.autosledz.backend.domain.EndpointDto;
+import com.autosledz.backend.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -55,6 +52,28 @@ public class CarTrackMapper {
     public List<EndpointDto> mapToEndpointDto(final List<Endpoint> endpointList) {
         return endpointList.stream()
                 .map(this::mapToEndpointDto)
+                .collect(Collectors.toList());
+    }
+
+    public Geofence mapToGeofence(final GeofenceDto geofenceDto) {
+        return new Geofence (
+                geofenceDto.getId(),
+                geofenceDto.getName(),
+                geofenceDto.getArea()
+        );
+    }
+
+    public GeofenceDto mapToGeofenceDto(final Geofence geofence) {
+        return new GeofenceDto (
+                geofence.getId(),
+                geofence.getName(),
+                geofence.getArea()
+        );
+    }
+
+    public List<GeofenceDto> mapToGeofenceDto(final List<Geofence> geofenceList) {
+        return geofenceList.stream()
+                .map(this::mapToGeofenceDto)
                 .collect(Collectors.toList());
     }
 }

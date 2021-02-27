@@ -1,11 +1,6 @@
 package com.autosledz.backend.controller;
 
-import com.autosledz.backend.domain.Device;
-import com.autosledz.backend.domain.DeviceDto;
-import com.autosledz.backend.domain.EndpointDto;
-import com.autosledz.backend.mapper.CarTrackMapper;
-import com.autosledz.backend.service.DbService;
-import com.autosledz.backend.service.GeocodingService;
+import com.autosledz.backend.domain.*;
 import com.google.gson.Gson;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -171,6 +166,90 @@ public class CarTrackControllerTestSuite {
         mockMvc
                 .perform(MockMvcRequestBuilders
                         .get("/v1/logs/deleteAll")
+                        .contentType(MediaType.APPLICATION_JSON));
+    }
+
+    @Test
+    void getGeofences() throws Exception {
+        // Given
+        List<GeofenceDto> geofenceDtos = new ArrayList<>();
+        GeofenceDto GeofenceDto1 = new GeofenceDto(0L, "takietam", "some_area");
+        GeofenceDto GeofenceDto2 = new GeofenceDto(2L, "jakasnazwa", "other area");
+        geofenceDtos.add(GeofenceDto1);
+        geofenceDtos.add(GeofenceDto2);
+        when(carTrackController.getGeofences()).thenReturn(geofenceDtos);
+
+        //When & Then
+        mockMvc
+                .perform(MockMvcRequestBuilders
+                        .get("/v1/geofences")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().is(200))
+                .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(2)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].id", Matchers.is(0)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name", Matchers.is("takietam")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].area", Matchers.is("some_area")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].id", Matchers.is(2)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].name", Matchers.is("jakasnazwa")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].area", Matchers.is("other area")));
+    }
+
+    @Test
+    void getGeofence() throws Exception {
+        // Given
+        GeofenceDto GeofenceDto = new GeofenceDto(0L, "takietam", "some_area");
+        Geofence geofence = new Geofence(0L, "takietam", "some_area");
+        when(carTrackController.getGeofence(any())).thenReturn(GeofenceDto);
+
+        //When & Then
+        mockMvc
+                .perform(MockMvcRequestBuilders
+                        .get("/v1/geofences/0")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().is(200))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id", Matchers.is(0)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name", Matchers.is("takietam")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.area", Matchers.is("some_area")));
+    }
+
+    @Test
+    void createGeofence() throws Exception {
+        // Given
+        GeofenceDto GeofenceDto = new GeofenceDto(0L, "takietam", "some_area");
+        doNothing().when(carTrackController).createGeofence(GeofenceDto);
+        Gson gson = new Gson();
+        String jsonContent = gson.toJson(GeofenceDto);
+
+        //When & Then
+        mockMvc
+                .perform(MockMvcRequestBuilders
+                        .post("/v1/geofences")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("UTF-8")
+                        .content(jsonContent));
+    }
+
+    @Test
+    void deleteGeofence() throws Exception {
+        // Given
+        doNothing().when(carTrackController).deleteGeofence(0L);
+
+        //When & Then
+        mockMvc
+                .perform(MockMvcRequestBuilders
+                        .delete("/v1/geofences/0")
+                        .contentType(MediaType.APPLICATION_JSON));
+    }
+
+    @Test
+    void deleteGeofences() throws Exception {
+        // Given
+        doNothing().when(carTrackController).deleteGeofences();
+
+        //When & Then
+        mockMvc
+                .perform(MockMvcRequestBuilders
+                        .get("/v1/geofences/deleteAll")
                         .contentType(MediaType.APPLICATION_JSON));
     }
 }

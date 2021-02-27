@@ -1,11 +1,9 @@
 package com.autosledz.backend.controller;
 
 import com.autosledz.backend.domain.*;
-import com.autosledz.backend.domain.traccar.TraccarPositionDto;
 import com.autosledz.backend.mapper.CarTrackMapper;
 import com.autosledz.backend.service.CarTrackService;
 import com.autosledz.backend.service.DbService;
-import com.autosledz.backend.service.GeocodingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -18,10 +16,8 @@ import java.util.*;
 @CrossOrigin(origins = "*")
 public class CarTrackController {
     private final DbService service;
-    private final GeocodingService geocodingService;
     private final CarTrackService carTrackService;
     private final CarTrackMapper carTrackMapper;
-    private final TraccarController traccarController;
 
     @RequestMapping(method = RequestMethod.GET, value = "/devices")
     public List<DeviceDto> getDevices() {
@@ -75,5 +71,41 @@ public class CarTrackController {
     public void deleteLogs() {
         service.saveEndpoint(new Endpoint("/v1/logs/deleteAll", "GET"));
         service.deleteAllEndpoints();
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/geofences")
+    public List<GeofenceDto> getGeofences() {
+        service.saveEndpoint(new Endpoint("/v1/geofences", "GET"));
+        return carTrackMapper.mapToGeofenceDto(service.getAllGeofences());
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/geofences/{geofenceId}")
+    public GeofenceDto getGeofence(@PathVariable Long geofenceId) throws GeofenceNotFoundException {
+        service.saveEndpoint(new Endpoint("/v1/geofences/" + geofenceId, "GET"));
+        return carTrackMapper.mapToGeofenceDto(service.getGeofence(geofenceId).orElseThrow(GeofenceNotFoundException::new));
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/geofences", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void createGeofence(@RequestBody GeofenceDto geofenceDto) {
+        service.saveEndpoint(new Endpoint("/v1/geofences", "POST"));
+        service.saveGeofence(carTrackMapper.mapToGeofence(geofenceDto));
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, value = "/geofences")
+    public GeofenceDto updateGeofence(@RequestBody GeofenceDto geofenceDto) {
+        service.saveEndpoint(new Endpoint("/v1/geofences", "PUT"));
+        return carTrackMapper.mapToGeofenceDto(service.saveGeofence(carTrackMapper.mapToGeofence(geofenceDto)));
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "/geofences/{geofenceId}")
+    public void deleteGeofence(@PathVariable Long geofenceId) {
+        service.saveEndpoint(new Endpoint("/v1/geofences/" + geofenceId, "DELETE"));
+        service.deleteGeofence(geofenceId);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/geofences/deleteAll")
+    public void deleteGeofences() {
+        service.saveEndpoint(new Endpoint("/v1/geofences/deleteAll", "GET"));
+        service.deleteAllGeofences();
     }
 }

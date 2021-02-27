@@ -2,8 +2,10 @@ package com.autosledz.backend.service;
 
 import com.autosledz.backend.domain.Device;
 import com.autosledz.backend.domain.Endpoint;
+import com.autosledz.backend.domain.Geofence;
 import com.autosledz.backend.repository.DeviceRepository;
 import com.autosledz.backend.repository.EndpointRepository;
+import com.autosledz.backend.repository.GeofenceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,7 @@ import java.util.Optional;
 public class DbService {
     private final DeviceRepository deviceRepository;
     private final EndpointRepository endpointRepository;
+    private final GeofenceRepository geofenceRepository;
 
     public List<Device> getAllDevices() {
         return deviceRepository.findAll();
@@ -40,5 +43,21 @@ public class DbService {
 
     public void deleteAllEndpoints() {
         endpointRepository.deleteAll();
+    }
+
+    public List<Geofence> getAllGeofences() {
+        return geofenceRepository.findAll();
+    }
+
+    public Optional<Geofence> getGeofence(Long geofenceId) { return geofenceRepository.findById(geofenceId); }
+
+    public Geofence saveGeofence(final Geofence geofence) { return geofenceRepository.save(geofence); }
+
+    public void deleteGeofence(Long id) {
+        geofenceRepository.deleteById(id);
+    }
+
+    public void deleteAllGeofences() {
+        geofenceRepository.deleteAll();
     }
 }
