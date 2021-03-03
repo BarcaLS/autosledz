@@ -55,7 +55,7 @@ public class CarTrackController {
         service.deleteDevice(deviceId);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/devices/deleteAll")
+    @RequestMapping(method = RequestMethod.DELETE, value = "/devices/deleteAll")
     public void deleteDevices() {
         service.saveEndpoint(new Endpoint("/v1/devices/deleteAll", "GET"));
         service.deleteAllDevices();
