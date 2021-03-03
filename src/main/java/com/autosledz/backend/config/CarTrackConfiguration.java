@@ -18,8 +18,8 @@ public class CarTrackConfiguration {
     @Value("${app.name}")
     private String appName;
 
-    @Value("${device.id.to.scheduled.inform}")
-    private Long deviceIdToScheduledInform;
+    @Value("${device.name.to.scheduled.inform}")
+    private String deviceNameToScheduledInform;
 
     @Value("${mail.footer}")
     private String mailFooter;

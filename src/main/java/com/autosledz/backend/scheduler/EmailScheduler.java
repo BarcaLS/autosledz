@@ -27,10 +27,15 @@ public class EmailScheduler {
     @Scheduled(cron = "0 0 23 * * *")
     public void sendInformationEmail() throws DeviceNotFoundException {
         List<TraccarDeviceDto> traccarDevices = traccarController.getTraccarDevices();
+        List<DeviceDto> devices = carTrackController.getDevices();
+
         List<TraccarDeviceDto> traccarDevice = traccarDevices.stream()
-                .filter(d -> d.getId().equals(carTrackConfiguration.getDeviceIdToScheduledInform()))
+                .filter(d -> d.getName().equals(carTrackConfiguration.getDeviceNameToScheduledInform()))
                 .collect(Collectors.toList());
-        DeviceDto deviceDto = carTrackController.updatePositionOfDevice(carTrackConfiguration.getDeviceIdToScheduledInform(), traccarDevice.get(0).getId());
+        List<DeviceDto> device = devices.stream()
+                .filter(d -> d.getName().equals(carTrackConfiguration.getDeviceNameToScheduledInform()))
+                .collect(Collectors.toList());
+        DeviceDto deviceDto = carTrackController.updatePositionOfDevice(traccarDevice.get(0).getId(), device.get(0).getId());
         String message = "Device " + deviceDto.getName() + " is at " + deviceDto.getDisplayName() + " (position updated: " + deviceDto.getUpdated() + ").";
         Mail mail = new Mail.MailBuilder()
                 .subject(SUBJECT)
