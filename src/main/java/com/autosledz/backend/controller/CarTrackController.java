@@ -43,10 +43,10 @@ public class CarTrackController {
         return carTrackMapper.mapToDeviceDto(service.saveDevice(carTrackMapper.mapToDevice(deviceDto)));
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/devices/{deviceId}/updatePosition")
-    public DeviceDto updatePositionOfDevice(@PathVariable Long deviceId) throws DeviceNotFoundException {
-        service.saveEndpoint(new Endpoint("/v1/devices/" + deviceId + "/updatePosition", "GET"));
-        return carTrackService.updatePositionOfDevice(deviceId);
+    @RequestMapping(method = RequestMethod.GET, value = "/devices/{traccarDeviceId}/{deviceId}/updatePosition")
+    public DeviceDto updatePositionOfDevice(@PathVariable Long traccarDeviceId, @PathVariable Long deviceId) throws DeviceNotFoundException {
+        service.saveEndpoint(new Endpoint("/v1/devices/" + traccarDeviceId + "/" + deviceId + "/updatePosition", "GET"));
+        return carTrackService.updatePositionOfDevice(traccarDeviceId, deviceId);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/devices/{deviceId}")

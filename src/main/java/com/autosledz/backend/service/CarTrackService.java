@@ -23,14 +23,10 @@ public class CarTrackService {
     private final GeocodingService geocodingService;
     private final CarTrackMapper carTrackMapper;
 
-    public DeviceDto updatePositionOfDevice(Long deviceId) throws DeviceNotFoundException {
+    public DeviceDto updatePositionOfDevice(Long traccarDeviceId, Long deviceId) throws DeviceNotFoundException {
         List<TraccarPositionDto> listOfPositions = traccarController.getTraccarPositions();
         for(TraccarPositionDto currentPosition : listOfPositions) {
-            List<TraccarDeviceDto> traccarDevices = traccarController.getTraccarDevices();
-            List<TraccarDeviceDto> traccarDevice = traccarDevices.stream()
-                    .filter(d -> d.getId() == deviceId)
-                    .collect(Collectors.toList());
-            if(currentPosition.getDeviceId().equals(traccarDevice.get(0).getId())) {
+            if(currentPosition.getDeviceId().equals(traccarDeviceId)) {
                 Float currentPositionLatitude = currentPosition.getLatitude();
                 Float currentPositionLongitude = currentPosition.getLongitude();
                 GeocodingDto currentPositionGeocoding = geocodingService.getGeocoding(currentPositionLatitude, currentPositionLongitude);

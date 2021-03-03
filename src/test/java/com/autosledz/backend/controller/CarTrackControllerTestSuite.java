@@ -95,12 +95,12 @@ public class CarTrackControllerTestSuite {
     void updatePositionOfDevice() throws Exception {
         // Given
         DeviceDto deviceDto = new DeviceDto(0L, "takietam", "oznaczenie", 50.450F, 12.405F, "urzadzenie_jakies", df.parse("2-11-2004"), df.parse("12-10-2011"));
-        when(carTrackController.updatePositionOfDevice(0L)).thenReturn(deviceDto);
+        when(carTrackController.updatePositionOfDevice(0L, 5L)).thenReturn(deviceDto);
 
         //When & Then
         mockMvc
                 .perform(MockMvcRequestBuilders
-                        .get("/v1/devices/0/updatePosition")
+                        .get("/v1/devices/0/5/updatePosition")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().is(200))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id", Matchers.is(0)))
