@@ -4,7 +4,6 @@ import com.autosledz.backend.controller.DeviceNotFoundException;
 import com.autosledz.backend.controller.TraccarController;
 import com.autosledz.backend.domain.DeviceDto;
 import com.autosledz.backend.domain.GeocodingDto;
-import com.autosledz.backend.domain.traccar.TraccarDeviceDto;
 import com.autosledz.backend.domain.traccar.TraccarPositionDto;
 import com.autosledz.backend.mapper.CarTrackMapper;
 import lombok.RequiredArgsConstructor;
@@ -12,8 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
-
 
 @Service
 @RequiredArgsConstructor
