@@ -27,7 +27,7 @@ It's a result of my work during Kodilla's course. You can use it on Creative Com
 I do not know any.
 
 ## links
-Backend: https://github.com/BarcaLS/autosledz
-Frontend: https://github.com/BarcaLS/autosledz-frontend/
-Traccar API documentation: https://www.traccar.org/api-reference/
-Traccar demo servers: https://www.traccar.org/demo-server/
+* Backend: https://github.com/BarcaLS/autosledz
+* Frontend: https://github.com/BarcaLS/autosledz-frontend/
+* Traccar API documentation: https://www.traccar.org/api-reference/
+* Traccar demo servers: https://www.traccar.org/demo-server/
